@@ -28,7 +28,7 @@
 
 %Set the cohort and stimulation type
 cohort = 'Int-MHb4-NpHR';  %Options: 'Int-MHb4-NpHR' and 'Int-MHb-ChR2'
-SessionType = 'Rewarded';  %Options: 'Rewarded' and 'Unrewarded'
+SessionType = 'Unrewarded';  %Options: 'Rewarded' and 'Unrewarded'
 
 %Save out figs or no?
 saveFigs=1;
@@ -277,7 +277,7 @@ y1 = mean(NOSTIM(:,trialNos),2);
 y2 = mean(STIM(:,trialNos),2);
 
 
-figure
+figure('Position',[440 378 312 420])
 b = barwitherr([nanstd(y1), nanstd(y2)]./sqrt(numel(y1)),[mean(y1), mean(y2)],'facecolor', 'flat');
 b.CData(1,:) = [ 0 0 0 ]; b.CData(2,:) = colorNum; b.EdgeAlpha = 0;  hold on
 plot([y1'; y2'],'Color',[.3 .3 .3])
@@ -361,7 +361,7 @@ clearvars -except D cohort STIM NOSTIM stim nostim cohort SessionType ...
 
 
 %%Plot Win-Stay 
-figure('Position',[1000 1114 250 224])
+figure('Position',[1000 581 174 224])
 y = nanmean(S,1);
 std = nanstd(S,1);
 b = barwitherr(std./sqrt(5),y,'facecolor', 'flat');
@@ -369,6 +369,23 @@ pause(.1)
 
 %Figure Settings
 b.CData(1,:) = [ 0 0 0]; b.CData(2,:) = colorNum; b.FaceAlpha = .5; b.EdgeAlpha = 0
+%Figure Settings
+b.CData(1,:) = [ 0 0 0]; b.FaceAlpha = .5; b.EdgeAlpha = 0
+if strcmp(cohort,'Int-MHb4-NpHR')
+    if strcmp(SessionType,'Rewarded')
+    b.CData(2,:) = colorNum
+    else
+    b.CData(2,:) = [.8 .8 .8]
+    end
+else
+    if strcmp(SessionType,'Rewarded')
+    b.CData(2,:) = [.8 .8 .8]
+    else
+    b.CData(2,:) = colorNum
+    end
+end
+
+
 hold on
 plot([ 1 2],S,'Color',[.3 .3 .3])
 
@@ -397,7 +414,7 @@ clearvars -except D cohort STIM NOSTIM stim nostim R L S cohort SessionType ...
 
 %Plot Data
 
-figure('Position',[1000 1083 294 255])
+figure('Position',[1000 581 174 224])
 b = barwitherr(nanstd(R,1)./sqrt(size(R,1)),nanmean(R,1),'facecolor', 'flat');
 b.CData(1,:) = [ 0 0 0 ]; b.CData(2,:) = colorNum; b.FaceAlpha = .5; b.EdgeAlpha = 0;
 hold on
@@ -423,7 +440,7 @@ clearvars -except D cohort STIM NOSTIM stim nostim R L S cohort SessionType ...
 
 %% Latencies for wins
 
-figure('Position',[1000 1083 294 255])
+figure('Position',[1000 581 174 224])
 b = barwitherr(nanstd(L,1)./sqrt(size(L,1)),nanmean(L,1),'facecolor', 'flat');
 b.CData(1,:) = [0 0 0]; b.CData(2,:) = colorNum; b.FaceAlpha = .5; b.EdgeAlpha = 0;
 hold on
@@ -460,14 +477,28 @@ clearvars -except D maxTransitionCount nMice mArray minTransitions ...
 
 
 %%Plot Win-Stay 
-figure('Position',[1000 1114 250 224])
+figure('Position',[1000 581 174 224])
 y = nanmean(S,1);
 std = nanstd(S,1);
 b = barwitherr(std./sqrt(5),y,'facecolor', 'flat');
 pause(.1)
 
 %Figure Settings
-b.CData(1,:) = [ 0 0 0]; b.CData(2,:) = colorNum; b.FaceAlpha = .5; b.EdgeAlpha = 0
+b.CData(1,:) = [ 0 0 0]; b.FaceAlpha = .5; b.EdgeAlpha = 0
+if strcmp(cohort,'Int-MHb4-NpHR')
+    if strcmp(SessionType,'Rewarded')
+    b.CData(2,:) = [.8 .8 .8]
+    else
+    b.CData(2,:) = colorNum
+    end
+else
+    if strcmp(SessionType,'Rewarded')
+    b.CData(2,:) = colorNum
+    else
+    b.CData(2,:) = [.8 .8 .8]
+    end
+end
+
 hold on
 plot([ 1 2],S,'Color',[.3 .3 .3])
 

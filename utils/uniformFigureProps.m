@@ -4,7 +4,7 @@ function  uniformFigureProps()
 
 %set figure size and text size
 %set(gcf, 'Position',  [378 806 360 307])
-set(gca, 'FontSize',16)
+set(gca, 'FontSize',14)
 
 %Change box and ticks
 box off
