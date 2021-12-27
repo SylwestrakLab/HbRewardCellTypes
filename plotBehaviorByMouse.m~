@@ -23,7 +23,7 @@ for m=1:nMice
     nostimData = nan(numel(idxFiles),maxTransitionCount);
     
     %Get max number of session for an animal
-    nDays = max(histcounts(categorical({D.subject}),(mArray)));
+    histogram({D.subject},mArray)
     
     if ~isempty(idxFiles)
         for f=1:numel(idxFiles)
@@ -36,7 +36,7 @@ for m=1:nMice
             nNoStim = size(D(idx).nostimTransitions,1);
             
             %Plot the data for this mouse and day
-            subplot(nDays,nMice,((f-1)*nMice)+m)
+            subplot(,nMice,((f-1)*nMice)+m)
             plot(nostimData(f,:),'k','LineWidth',4); hold on
             plot(stimData(f,:),colorAlpha,'LineWidth',4)            
             text(7,.2,{ ['n = ' num2str(nStim) ' stim'] ; ['n = ' num2str(nNoStim) ' no stim'] })

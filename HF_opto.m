@@ -1,15 +1,16 @@
 %%% Analyze Opto stim for head-fixed data.  
-%behavior:  head-fixed reward guided task using Bpod hardward and
+%behavior:  head-fixed reward0-guided task using Bpod hardward and
 %DynamicForagingHattoriStim.m script.   Animals have a pre-cue period in
 %which they cannot lick (results in "premature" lick and trialtype==0).
 %During 1s stim, licks may result in a reward.  Session has a block
 %structure. During each block, one port is assigned a high reward
 %probability (SessionData.RewardFraction1), and the other a low probability (SessionData.RewardFraction2) 
 %Rewards are delivered based on the side of first lick and the reward
-%probability.  Block alternate between right and left ports.  To
+%probability.  Blocks alternate between right and left ports.  To
 %crystallize behavior, the first 3 blocks have "helper" water. On the first
 %incorrect lick, a small reward is delivered in the "correct" (i.e. high
-%prob) port.  After a variable ITI, the next trial begins.  
+%prob) port.  These trails are not included in the data analysis.
+%After a variable ITI, the next trial begins.  
 
 %Optogenetic Stim consists of two protocols 1) Stimulating/Inhibiting rewarded trials,
 %which mainly occur later in the block switch after some persistant licks
@@ -20,14 +21,14 @@
 
 %This script loads data from one cohort and stimuluation protocol (either
 %rewarded or unrewarded stim, as indicated above). The data is arranged in
-%a stuct (D) that contains all data arranged by behavioral session.  The D
+%a stuct (D) that contains all data arranged by behavioral session (rows).  The D
 %struct is used to generate plots for behavioral performance, reponse
-%latency, lick distribution, and win-stay dynamics. 
+%latency, lick distribution, and win-stay lose-switch dynamics. 
 
 
 %Set the cohort and stimulation type
-cohort = 'Int-MHb4-NpHR';
-SessionType = 'Rewarded';
+cohort = 'Int-MHb4-NpHR';  %Options: 'Int-MHb4-NpHR' and 'Int-MHb-ChR2'
+SessionType = 'Rewarded';  %Options: 'Rewarded' and 'Unrewarded'
 
 %Save out figs or no?
 saveFigs=1;
@@ -178,8 +179,9 @@ for f = 1:numel(filelist)
         %Make array to get response rate and latency
         responded = nan(numel(idxTransition),maxTransitionCount);  %to calculate response rate (% of trials w/ lick)
         latArray = nan(numel(idxTransition),maxTransitionCount); %to calculate latency to first lick
+        D(f).portBlock = nan(numel(idxTransition),1);
 
-        %Average over all transitions between blocks
+        %Average over all transitions between blocks\
         for i = 1:numel(idxTransition)
             act = ActivePort(idxTransition(i)); %get high reward prob port for this block
             Correct = D(f).firstLick == act; %determine if first lick was on high prob port
@@ -208,7 +210,7 @@ for f = 1:numel(filelist)
         %Remove first 3 blocks w/ helper water
         transitions2 = D(f).transitions(4:end-1,:);
         StimBlock = D(f).StimBlock(4:end-1);
-        portBlock = D(f).portBlock(4:end-1);
+        portBlock = D(f).portBlock(4:end-1)';
 
 
 
@@ -236,6 +238,7 @@ for f = 1:numel(filelist)
 end
 
 %Remove files excluded
+idxExclude=idxExclude(idxExclude<=size(D,2));
 filelist(idxExclude)=[];
 D(idxExclude)=[];
 
@@ -247,7 +250,7 @@ clearvars -except D maxTransitionCount nMice mArray minTransitions ...
            
 %%  Plot the behavior of each session for each animal
 
-[stim, nostim] = plotBehaviorByMouse(D,cohort)
+[stim, nostim] = plotBehaviorByMouse(D,cohort);
 
 %% Plot Averages for Left vs Right
 
@@ -260,7 +263,7 @@ plotLvsR(D,cohort)
 
 %% Plot Averages for Each animal, and Cohort Average
 
-[STIM, NOSTIM] = plotBehaviorAve(D,'Int-MHb4-NpHR');
+[STIM, NOSTIM] = plotBehaviorAve(D,cohort);
 if saveFigs
 plot2svg(['~/Dropbox (Personal)/MHb Figure Drafts/Revisions/HeadFixedBehavior/Opto/WithStim/panels/cohortAverage_' cohort '_' SessionType '.svg'],gcf)
 end
@@ -276,7 +279,7 @@ y2 = mean(STIM(:,trialNos),2);
 
 figure
 b = barwitherr([nanstd(y1), nanstd(y2)]./sqrt(numel(y1)),[mean(y1), mean(y2)],'facecolor', 'flat');
-b.CData(1,:) = [ 0 0 0 ]; b.CData(2,:) = [ 1 1 0 ]; b.EdgeAlpha = 0;  hold on
+b.CData(1,:) = [ 0 0 0 ]; b.CData(2,:) = colorNum; b.EdgeAlpha = 0;  hold on
 plot([y1'; y2'],'Color',[.3 .3 .3])
 
 %Figure Settings
@@ -295,7 +298,6 @@ clearvars -except D cohort STIM NOSTIM stim nostim cohort SessionType ...
 %get lick times.  first column is trial t, second column is trial t+1 and
 %each row is a mouse
 [stimLicks, nostimLicks,trialCount] = getLickDist(D,cohort);
-
 
 %Plot Data
 figure('Position',[440 514 551 284])
