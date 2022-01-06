@@ -247,22 +247,14 @@ clearvars -except D maxTransitionCount nMice mArray minTransitions ...
     cohort saveFigs SessionType...
     filelist
 
-%% For YoungJu - pull out data for RL learning
+%% For YoungJu - get vectors for RL learning
 
 for i=1:size(D,2)
-    %get the Subject
     RL(i).subject = D(i).subject;
-    %get Index of first trial after the "free water shaping" blocks (1-3)
-    %and the trial numbers of the subsequent trials
-    %use indicies to pull relevant behavioral variables
-    idxStart = D(i).idxTransition(4);
-    idxTrials = idxStart:1:numel(D(i).ActivePort);
-    RL(i).trialNo = idxTrials;
-    RL(i).stim = D(i).StimState(idxTrials); %0= no stim; 1=stim
-    RL(i).rewarded = D(i).Rewarded(idxTrials);  %0=no reward; 1=reward
-    RL(i).lick = D(i).firstLick(idxTrials); %-1=Left; 1=right; 0=omitted
-    RL(i).latency = D(i).Latency(idxTrials);
+    RL(i).trialNo = D(i).subject;
+    
 end
+
 
            
 %%  Plot the behavior of each session for each animal
