@@ -218,6 +218,7 @@ for f = 1:numel(filelist)
         stimData(f,:) = nanmean(transitions2(StimBlock,:),1);
         nostimData(f,:) = nanmean(transitions2(~StimBlock,:),1);
 
+        %Exclude if there is too few transitions
         if size(transitions2,1) >=minTransitions
             %Add into D struct
             D(f).stimTransitions = transitions2(StimBlock,:);
@@ -228,6 +229,15 @@ for f = 1:numel(filelist)
             D(f).StimTranLeft= transitions2((StimBlock & portBlock==1),:); 
 
         else
+            idxExclude = [idxExclude f];
+        end
+        
+        %Exclude if performance is below criterion in 
+        left = transitions2((portBlock==-1),end-2:end);
+        right = transitions2((portBlock==1),end-2:end);
+        left = left(:);
+        right = right(:);
+        if mean(left)<.50 || mean(right)<.50
             idxExclude = [idxExclude f];
         end
                
@@ -246,6 +256,24 @@ clearvars -except D maxTransitionCount nMice mArray minTransitions ...
     lightColorLabel colorAlpha colorNum saveFigs ...
     cohort saveFigs SessionType...
     filelist
+
+%% Remove animals w/ very few stim transitions
+
+
+for f=1:size(D,2)
+D(f).nStimTransitions = size(D(f).stimTransitions,1) + size(D(f).nostimTransitions,1);
+end
+for m=1:numel(mArray)
+    idxMouse = findStrInCell(mArray{m},{D.subject});
+    nStimTransitions(m) = sum([D(idxMouse).nStimTransitions]);
+end
+idxRemove = find(nStimTransitions<10)
+for r=1:numel(idxRemove)
+    idxMouse = findStrInCell(mArray{idxRemove(r)},{D.subject});
+    D(idxMouse)=[];
+end
+
+
 
 %% For YoungJu - pull out data for RL learning
 
@@ -282,7 +310,7 @@ plotLvsR(D,cohort)
 
 [STIM, NOSTIM] = plotBehaviorAve(D,cohort);
 if saveFigs
-plot2svg(['~/Dropbox (Personal)/MHb Figure Drafts/Revisions/HeadFixedBehavior/Opto/WithStim/panels/cohortAverage_' cohort '_' SessionType '.svg'],gcf)
+saveas(gcf,['~/Dropbox (Personal)/MHb Figure Drafts/Revisions/HeadFixedBehavior/Opto/WithStim/panels/animalAverage_' cohort '_' SessionType '.jpg'],'jpg')
 end
 
 
