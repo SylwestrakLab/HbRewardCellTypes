@@ -22,8 +22,8 @@ end
 
 figure('Position',[1000 1100 305 238]); hold on
 %Plot averages for unstimulated data 
-shadedErrorBar(1:1:15,nanmean(1-y1,1),nanstd(y1,[],1)./sqrt(size(y1,1)),{'Color',[0 1 0],'LineWidth',4},.8); hold on
-shadedErrorBar(1:1:15,nanmean(y3,1),nanstd(y3,[],1)./sqrt(size(y3,1)),{'Color',[0 0 1],'LineWidth',4},.8)
+shadedErrorBar(1:1:maxTransitionCount,nanmean(1-y1,1),nanstd(y1,[],1)./sqrt(size(y1,1)),{'Color',[0 1 0],'LineWidth',4},.8); hold on
+shadedErrorBar(1:1:maxTransitionCount,nanmean(y3,1),nanstd(y3,[],1)./sqrt(size(y3,1)),{'Color',[0 0 1],'LineWidth',4},.8)
 
 %Set figure properties
 xlabel('Trials from Switch')
