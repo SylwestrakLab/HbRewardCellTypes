@@ -49,7 +49,9 @@ end
 uniformFigureProps(); ax = gca; ax.TitleFontSizeMultiplier =.7;
 xlabel('Trials from Switch')
 ylabel({'Fraction on'; 'High pReward Port'})
-title('Cohort Average')
+saveas(gcf,['~/Dropbox (Personal)/MHb Figure Drafts/Revisions/HeadFixedBehavior/Opto/WithStim/panels/animalAverage_' cohort '.jpg'],'jpg')
+
+
 
 %Save out individual figure for illustrator
 figure('Position',[1000 1100 305 238]); hold on
@@ -69,7 +71,7 @@ shadedErrorBar(1:1:maxTransitionCount,nanmean(cumNOSTIM,1),nanstd(cumNOSTIM,[],1
 shadedErrorBar(1:1:maxTransitionCount,nanmean(cumSTIM,1),nanstd(cumSTIM,[],1)./sqrt(numel(mArray)),{'Color',colorAlpha,'LineWidth',4},.8)
 uniformFigureProps(); ax = gca; ax.TitleFontSizeMultiplier =.7;
 xlabel('Trials from Switch')
-ylabel({'Fraction on'; 'High pReward Port'})
+ylabel({'Cumulative Fraction on'; 'High pReward Port'})
 title('Cohort Average')
 gcf;
 
