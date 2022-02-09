@@ -303,21 +303,35 @@ plotLvsR(D,cohort)
 
  %Save our figure
  if saveFigs
- plot2svg(['~/Dropbox (Personal)/MHb Figure Drafts/Revisions/HeadFixedBehavior/Opto/WithStim/panels/cohortAverageLvsR_' cohort '_' SessionType '.svg'],gcf)
+ plot2svg(['~/Dropbox (Personal)/MHb Figure Drafts/Revisions/HeadFixedBehavior/Opto/WithStim/panels/' cohort '/cohortAverageLvsR_' cohort '_' SessionType '.svg'],gcf);
  end
 
 %% Plot Averages for Each animal, and Cohort Average
 
 [STIM, NOSTIM] = plotBehaviorAve(D,cohort);
 if saveFigs
-saveas(gcf,['~/Dropbox (Personal)/MHb Figure Drafts/Revisions/HeadFixedBehavior/Opto/WithStim/panels/animalAverage_' cohort '_' SessionType '.jpg'],'jpg')
+saveas(gcf,['~/Dropbox (Personal)/MHb Figure Drafts/Revisions/HeadFixedBehavior/Opto/WithStim/panels/' cohort '/animalAverage_' cohort '_' SessionType '.jpg'],'jpg')
 end
 
+[h,p] = kstest2(NOSTIM(:),STIM(:))
+[p,h] = ranksum(NOSTIM(:),STIM(:))
 
+
+
+y1 =vertcat(D.nostimTransitions);
+y2 =vertcat(D.stimTransitions);
+x1 = repmat(1:1:15,[size(y1,1), 1]);
+x2 = repmat(1:1:15,[size(y2,1), 1]);
+X1 = x1(:);
+X2 = x2(:);
+Y1 = y1(:); 
+Y2 = y2(:);
+
+        
 %% Analyze switch lag using trials 11-15
 
 %Plot Data
-trialNos = 11:15;
+trialNos = 10:15;
 y1 = mean(NOSTIM(:,trialNos),2);
 y2 = mean(STIM(:,trialNos),2);
 
@@ -330,7 +344,7 @@ plot([y1'; y2'],'Color',[.3 .3 .3])
 %Figure Settings
 uniformFigureProps(); ax = gca; ax.TitleFontSizeMultiplier =.7;xticks([1 2])
 xticklabels({'No Light', lightColorLabel})
-xtickangle(45); title('Cohort Average Trials 11-15')
+xtickangle(45); title('Cohort Average Trials 10-15')
 ylabel({'Fraction on'; 'High pReward Port'})
 [~, p] = ttest(y1,y2);  text(.5,.95,['p = ' num2str(round(p,3))])
 
@@ -386,7 +400,7 @@ end
 
 gcf;
 if saveFigs
-print(['~/Dropbox (Personal)/MHb Figure Drafts/Revisions/HeadFixedBehavior/Opto/WithStim/panels/lickDist_' cohort '_' SessionType '.pdf'],'-dpdf')
+print(['~/Dropbox (Personal)/MHb Figure Drafts/Revisions/HeadFixedBehavior/Opto/WithStim/panels/' cohort '/lickDist_' cohort '_' SessionType '.pdf'],'-dpdf')
 end
 %close gcf
 
@@ -447,7 +461,7 @@ text(i,.95,['p = ' num2str(round(p,3))])
 pause(.1)
 
 if saveFigs
-print(['~/Dropbox (Personal)/MHb Figure Drafts/Revisions/HeadFixedBehavior/Opto/WithStim/panels/WinStay_' cohort '_' SessionType '.pdf'],'-dpdf')
+print(['~/Dropbox (Personal)/MHb Figure Drafts/Revisions/HeadFixedBehavior/Opto/WithStim/panels/' cohort '/WinStay_' cohort '_' SessionType '.pdf'],'-dpdf')
 end
 %close gcf
 
@@ -473,7 +487,7 @@ title('Trial_t_+_1')
 uniformFigureProps(); ax = gca; ax.TitleFontSizeMultiplier =.7;
 gcf;
 if saveFigs
-print(['~/Dropbox (Personal)/MHb Figure Drafts/Revisions/HeadFixedBehavior/Opto/WithStim/panels/responseRateAfterFirst Win_' cohort '_' SessionType '.pdf'],'-dpdf')
+print(['~/Dropbox (Personal)/MHb Figure Drafts/Revisions/HeadFixedBehavior/Opto/WithStim/panels/' cohort '/responseRateAfterFirst Win_' cohort '_' SessionType '.pdf'],'-dpdf')
 end
 [~, p ]= ttest((R(:,1)),(R(:,2)));
 text(i,.95,['p = ' num2str(round(p,3))])  
@@ -500,7 +514,7 @@ uniformFigureProps(); ax = gca; ax.TitleFontSizeMultiplier =.7;
 text(.5,.3,['p = ' num2str(round(p,3))])
 
 if saveFigs
-print(['~/Dropbox (Personal)/MHb Figure Drafts/Revisions/HeadFixedBehavior/Opto/WithStim/panels/LatencyAfterFirstWin_' cohort '_' SessionType '.pdf'],'-dpdf')
+print(['~/Dropbox (Personal)/MHb Figure Drafts/Revisions/HeadFixedBehavior/Opto/WithStim/panels/' cohort '/LatencyAfterFirstWin_' cohort '_' SessionType '.pdf'],'-dpdf')
 end
 %close gcf
 
@@ -560,7 +574,7 @@ text(i,.95,['p = ' num2str(round(p,3))])
 pause(.1)
 
 if saveFigs
-print(['~/Dropbox (Personal)/MHb Figure Drafts/Revisions/HeadFixedBehavior/Opto/WithStim/panels/LoseShift_TrialT+1_' cohort '_' SessionType '.pdf'],'-dpdf')
+print(['~/Dropbox (Personal)/MHb Figure Drafts/Revisions/HeadFixedBehavior/Opto/WithStim/panels/' cohort '/LoseShift_TrialT+1_' cohort '_' SessionType '.pdf'],'-dpdf')
 end
 %close gcf
 
