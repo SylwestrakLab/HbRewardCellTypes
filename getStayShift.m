@@ -64,8 +64,9 @@ for m=1:numel(mArray)
             
             %for each transition, find the correct/rewarded trials and get
             %result of following trial
+            maxAnalysisTrials = 10;
             for j=1:size(t,1)
-                idx = find(t(j,1:maxTransitionCount-1)==outcome);
+                idx = find(t(j,1:maxAnalysisTrials-1)==outcome);
                 if ~isempty(idx)
                             switchArray(j,1) = t(j,idx(1)+1);
                             futureResponse(j,1) = r(j,idx(1)+1);
