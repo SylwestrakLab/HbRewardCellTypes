@@ -8,7 +8,7 @@ rewardedTimeWin = 30;
 unrewardedTimeWin = 10;
 nsamples = 50;
 
-for c = 1:numel(cohorts)
+for c = 5%1:4%numel(cohorts)
  clearvars -except c cohorts protocol rewardedTimeWin unrewardedTimeWin nsamples minHeadInDur
 %if c>4; protocol = '10';end
 load([pwd '/datafiles/FP/StandardTask/' cohorts{c} protocol '.mat'])
@@ -16,19 +16,11 @@ load([pwd '/datafiles/FP/StandardTask/' cohorts{c} protocol '.mat'])
 keySet = unique({T.subject});
 valueSet = 1:1:numel(keySet);
 M = containers.Map(keySet,valueSet);
- 
-%Cannot extract data from newer files aquired w/ bpod
-idx = logical(zeros(size(T)));
-for s=1:size(T,2)
-if isfield(T(s).d,'headIn')
-    idx(s) = 1;
-end
-end
-T = T(idx);
-
+    
 %Find Head out sync right after reward sync to get head in duration 
 for s=1:size(T,2)
-
+    
+    
     sr=T(s).d.samplerate;
     clear timeDiff
     T(s).HeadInDur = nan(numel(T(s).d.headIn),1);
@@ -219,5 +211,5 @@ shadedErrorBar(x,nanmean(data,2),nanstd(data,[],2)./sqrt(n),{'Color',colors(1,:)
 xline(0,'--k','LineWidth',2)
 
 saveas(gcf, [pwd '/Figure S3/panels/' cohort '_HeadInDuration_timeseries.pdf']) 
-end
 
+end

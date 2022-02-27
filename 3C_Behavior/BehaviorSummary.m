@@ -1,8 +1,9 @@
 %% Plot basic parameters of 3-Choice behavior for figure 1 and figure S2
+cd '~/Dropbox/MHb Figure Drafts/Data/'
 
 %Load struct containing all behavioral filenames and extracted K arrays
 %from MPC program. 
-load([pwd '/data/behaviorFiles/3ChoiceBehavior.mat'])
+load([pwd '/datafiles/behaviorFiles/3ChoiceBehavior.mat'])
 
 %Convert subject names to numerical ids for easier sorting
 mArray1 = get_mice('FP_Oregon');

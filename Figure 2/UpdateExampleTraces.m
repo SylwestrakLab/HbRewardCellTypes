@@ -1,5 +1,6 @@
 %% Update example traces for Figure 1
-%define colors
+cd '~/Dropbox/MHb Figure Drafts/Data/'
+
 close all
 
 %% Figure 2
@@ -10,4 +11,4 @@ grab_session_example('calb','m726','6',1);
 grab_session_example('LHbCombo','m417','6',1);
 
 %% Figure 3
-grab_session_example('Int-LHb','m1109','7',1);
+grab_session_example('Int-LHb2','m1109','7',1);

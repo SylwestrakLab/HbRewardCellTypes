@@ -1,6 +1,7 @@
 %% Get Reward Latency and Duration in reward port
+cd '~/Dropbox/MHb Figure Drafts/Data/'
 
-load('/Users/emily/Documents/GitHub/HbRewardCellTypes/data/behaviorFiles/3ChoiceBehavior.mat')
+load([pwd '/datafiles/behaviorFiles/3ChoiceBehavior.mat'])
 
 %% Get Reward Latency from MPC K array (Stanford) and Session data Structures (Oregon)
 %Get outcomes
@@ -50,7 +51,7 @@ xticklabels({})
 
 %This is not captured by MPC, so the sycns from synapse (TDT) must be used.
 % Load the T struct and find the associated processed TDT files. 
-load('/Users/emily/Documents/GitHub/HbRewardCellTypes/data/FP/WithheldRewards/TacRewLight.mat')
+load([pwd '/datafiles/FP/WithheldRewards/TacRewLight.mat'])
 
 %Get processed files w/ Syncs
 for i=1:size(T,2)

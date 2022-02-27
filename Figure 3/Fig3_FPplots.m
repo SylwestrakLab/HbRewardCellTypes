@@ -1,5 +1,4 @@
-clear all
-close all
+cd '~/Dropbox/MHb Figure Drafts/Data/'
 
 %% Make FP Plots aligned to Syncs -  Left Panels C, D, E, F, G
 
@@ -32,8 +31,9 @@ for c=1:numel(cohorts)
     end
     
     %Load cohort data
-    load(['~/Dropbox/HabenulaData/FP_3CSRTT/FPdatafiles/Manuscript/' cohorts{c} protocol '.mat'],'T')
-    D = convertoldMPCstruct(T);
+    load([pwd '/datafiles/FP/WithheldRewards/' cohorts{c} protocol '.mat'],'T')
+    D = convertoldMPCstruct(T,10);
+    %D=T;
     mArray = unique({D.subject});
     
     %Loop through behavioral syncs

@@ -1,3 +1,4 @@
+cd '~/Dropbox/MHb Figure Drafts/Data/'
 
 %% Make FP Plots aligned to Syncs -  Left Panels F,G,H
 
@@ -17,7 +18,7 @@ dataUnits = 'Zscore';
 fpstats={};
 for c=1:numel(cohorts)
     %Load cohort data
-    load([pwd '/data/FP/StandardTask/' cohorts{c} protocol '.mat'],'T')
+    load([pwd '/datafiles/FP/StandardTask/' cohorts{c} protocol '.mat'],'T')
     D=T;
     mArray = unique({D.subject});
     

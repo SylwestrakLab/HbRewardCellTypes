@@ -1,6 +1,7 @@
 function I = grab_session_example(cohort, subject, protocol, n)
 %Load Data Struct
-procdir = [pwd '/data/FP/*/']
+cd '~/Dropbox/MHb Figure Drafts/Data/'
+procdir = [pwd '/datafiles/FP/*/']
 path = [procdir  cohort protocol '.mat'];
 datafile = dir(path)
 load(fullfile(datafile.folder,datafile.name),'T', 'time_Win', 'sr','dataUnits')
@@ -26,10 +27,13 @@ trial = horzcat(trial{:}); %Concatenate trial numbers
 data = horzcat(data{:}); %Concatenate data
 [~, idx] = sort(trial); %Sort by trial number
 data = data(:,idx);
-
-
+if isfield(T2,'d')
+    sr = T2.d.samplerate/T2.filterHz;
+else
+    sr = 1017/50;
+end
 %Make all plots the same number of trials
-I=data((time_Win-1)*sr:end,:)';
+I=data(round((time_Win-1)*sr):end,:)';
 if size(I,1)>80
     I=I(1:80,:);
 end
@@ -90,14 +94,9 @@ else
 caxis([-1 4])
 set(cb,'YTick',[-1 4])
 end
-colorbar
 
 %Label Colorbar
-if strmatch(dataUnits,'Raw')
-    t=text(100,50,'%\DeltaF/F','FontSize',12,'TextAngle',90)
-else
-    t=text(175,50,'Z Score','FontSize',12)
-end
+t=text(175,50,'Z Score','FontSize',12)
 set(t,'Rotation',90)
 
 

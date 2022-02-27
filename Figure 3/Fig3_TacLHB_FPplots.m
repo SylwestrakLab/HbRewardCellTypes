@@ -1,8 +1,9 @@
 %% Make plots for figure 3 I-K
+cd '~/Dropbox/MHb Figure Drafts/Data/'
 
 %% Load Data set of LHb Targeted Tac1 FP mice
 
-load([pwd '/data/FP/WithheldRewards/Int-LHb7.mat'])
+load([pwd '/datafiles/FP/WithheldRewards/Int-LHb7.mat'])
 
 %Get Plot Params
 cohorts = {'Int-LHb2'};
@@ -25,7 +26,7 @@ ymax = 5;
 
 
 %Load cohort data
-load([pwd '/data/FP/WithheldRewards/' cohorts{c} protocol '.mat'],'T')
+load([pwd '/datafiles/FP/WithheldRewards/' cohorts{c} protocol '.mat'],'T')
 D = convertoldMPCstruct(T);
 mArray = unique({D.subject});
 
