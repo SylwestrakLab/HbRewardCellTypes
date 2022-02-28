@@ -1,7 +1,20 @@
-cd '~/Dropbox/MHb Figure Drafts/Data/'
+
+%% Figure 4 main plots
+
+%This script loads all sessions from the standard task, limits to only
+%correct/rewarded trials, calculates a mean for individual animals, and
+%then averages across animals.  The resulting array is a plot of the mean
+%fluorescence as a function of trial number.  
+
+%Average DF 0-4s after the reward is caculated for each sequential reward,
+%and then plotted as a function of the nth rewarded trial in a bar graph.
+%For TH mice, the time window is 0-1 seconds before the reward to capture
+%the port light-associated response.  
 
 %% Make FP Plots aligned to Syncs -  Left Panels F,G,H
 
+
+cd '~/Dropbox/MHb Figure Drafts/Data/'
 %Get Plot Params
 cohorts = {'Th','Tac','chat','calb','LHbCombo'};
 outcomes = [1 2 3 4];

@@ -1,8 +1,11 @@
-%% Make plots for figure 3 I-K
-cd '~/Dropbox/MHb Figure Drafts/Data/'
+%% Make plots for figure 3 I-J
+
+%This script plots the mean time series around reward port entry for LHb-Targeted Tac1 FP during a 80%
+%rewarded session, separated by reward delivery
+
 
 %% Load Data set of LHb Targeted Tac1 FP mice
-
+cd '~/Dropbox/MHb Figure Drafts/Data/'
 load([pwd '/datafiles/FP/WithheldRewards/Int-LHb7.mat'])
 
 %Get Plot Params
@@ -22,8 +25,6 @@ dataUnits = 'Zscore';
 fpstats=cell(numel(cohorts),1,4);
 ymin = -1;
 ymax = 5;
-
-
 
 %Load cohort data
 load([pwd '/datafiles/FP/WithheldRewards/' cohorts{c} protocol '.mat'],'T')
@@ -97,48 +98,4 @@ mArray = unique({D.subject});
     if save_figure == 1
         plot2svg([pwd '/Figure 3/panels/' cohorts{c} '/' cohorts{c} protocol syncname{j} '.svg'],h);                            
     end  
-
-
-%% Plot Stats - Right Panels C, D, E, F, G
-close all
-colors = rewLightColors(1)
-colors = colors([2 1 3 4],:);   
-    %Make Fig
-    h = figure('Position',[1000 1148 167 190])
-    
-    %Get data
-    data = vertcat(fpstats{c,j,:});
-    pre = cell2mat(data(:,1));
-    post = cell2mat(data(:,2));
-    data = post-pre;
-    data = data([2 1],:)
-    
-    %Make Plot
-    plotDistwMean(data',colors)
-    
-    %figure props
-    xlim([0.5,2.5])
-    xticks([1 2])
-    xticklabels({});
-    prettyAxis()
-    box off
-    ylabel('Z Score')
-    
-    %Save out figure
-    saveas(gcf, [pwd '/Figure 3/panels/' cohorts{c} '/' cohorts{c} '_TacWitheld_stats.pdf']);    
-    
-    %Export Stats for Prism
-    eventLabels = {'Start','Cue', 'Poke', 'Reward'};
-    nData = numel(fpstats{c,j,1}{1});
-    statExport = nan(2,nData,2);
-    for i=1:2
-        statExport(i,:,1) = fpstats{c,j,i}{1};
-        statExport(i,:,2) = fpstats{c,j,i}{2};
-    end
-    csvwrite([pwd '/Figure 3/stats/' cohorts{c} '_' eventLabels{i} '_TacWitheld_FPstats.csv'],statExport);
-    
-
-    
-
-
 

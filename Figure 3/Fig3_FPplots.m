@@ -1,6 +1,17 @@
-cd '~/Dropbox/MHb Figure Drafts/Data/'
 
 %% Make FP Plots aligned to Syncs -  Left Panels C, D, E, F, G
+%This script plots 
+%1. The FP time series around the rewardy port entry,
+%sparated by reward contingency (no reward, no reward light, or neither)
+
+%2. The summary statistics for each time series, quantified as chagne in
+%zscore before and after the reward port entry, plotted as a bar graph with 
+%individual animals overlayed, and exports summary
+%data to .csv file for statistical analysis.  
+
+
+
+cd '~/Dropbox/MHb Figure Drafts/Data/'
 
 %Get Plot Params
 dataLabels = {'Correct','Incorrect','Omitted','Premature'};
@@ -21,6 +32,7 @@ fpstats=cell(numel(cohorts),1,4);
 ymin = [-1 -2 -2 -2 -2];
 ymax = [3 6 2 2 4 ];
 
+%% Plot time series around reward port entry, separated by reward contingency
 
 for c=1:numel(cohorts)
     %Account for change in name of Light protocol
@@ -108,7 +120,7 @@ for c=1:numel(cohorts)
     end
 end
 
-%% Plot Stats - Right Panels C, D, E, F, G
+%% Plot Stats and export to csv.  - Right Panels C, D, E, F, G
 close all
 colors = rewLightColors(1)
 colors = colors([2 1 3 4],:);

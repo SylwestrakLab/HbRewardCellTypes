@@ -1,13 +1,17 @@
-cd '~/Dropbox/MHb Figure Drafts/Data/'
+%%  Make example plots for FP across a session in Figure 4
+%This script loads the data set for the Tac1 cohort and selects a single
+%session to plot as a heat map, restricted to only rewarded trials, and
+%sorted according to trial number
 
 %% Make Example session for Figure 4, panel A
 
-cohort = 'Tac'
-subject = 'm217'
+cohort = 'Tac';
+subject = 'm217';
 n=1;
-protocol = '6' 
+protocol = '6'; 
 dataUnits = 'Zscore';
 
+cd '~/Dropbox/MHb Figure Drafts/Data/'
 load([pwd '/datafiles/FP/StandardTask/' cohort protocol '.mat'],'T')
 %%
 %Get correct Trials

@@ -1,7 +1,25 @@
-cd '~/Dropbox/MHb Figure Drafts/Data/'
+
+
+%% Fiber Photometry Panels, Stats and Summary for Figure 2
+
+%This Script Runs 3 types of analysis.  
+
+%1. For Left Panels F,G,H, it aligns
+%the specified data (Zscore or DF/F) at the specified behavior sync, sorted
+%by trial outcome (correct, incorrect, omitted, premature)
+
+%2. For each behavioral synce, for each cohort, the F is calulcated before
+%and after the behavioral sync for each outcome. For Cue and Poke, where
+%more than one outcome exists, and ANOVA is used. For reward, a paried
+%t-test is used. 
+
+%3. The data is analyzed for both reward approach and reward consumption.
+%A metric of post-pre is calculated. %The data are compared across cohorts 
+%for summary plot One Sample T-test plus FDR is used to determine if there
+%is a significant effect for each cohort for the two reward metrics. 
 
 %% Make FP Plots aligned to Syncs -  Left Panels F,G,H
-
+cd '~/Dropbox/MHb Figure Drafts/Data/'
 %Get Plot Params
 dataLabels = {'Correct','Incorrect','Omitted','Premature'};
 cohorts = {'Th','Tac','chat','calb','LHbCombo'};
