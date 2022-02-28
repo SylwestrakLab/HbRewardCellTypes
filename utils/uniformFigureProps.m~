@@ -1,0 +1,32 @@
+function  uniformFigureProps()
+%%%Make all figures uniform in size, text, and tick properties.  
+
+
+set(gcf,'DefaultAxesFontSize',7)
+%set figure size and text size
+%set(gcf, 'Position',  [378 806 360 307])
+set(gca, 'FontSize',7)
+set(gcf, 'PaperUnits', 'centimeters', 'Units', 'centimeters');
+%Change box and ticks
+box off
+ax = gca;
+ax.TickLength = [0.01 0.01];
+ax.TickDir = 'out';
+box off
+ax.LineWidth = 1;
+% legend('Location','northeast', 'FontSize', 10)
+% legend boxoff 
+
+ax.XRuler.TickLabelGapOffset = -2;
+ax.YRuler.TickLabelGapOffset = -1;
+% xh = get(gca,'xlabel') % handle to the label object
+% p = get(xh,'position') % get the current position property
+% p(2) = p(2)-2 ;        % double the distance,                     % negative values put the label below the axis
+% set(xh,'position',p)  
+% 
+% yh = get(gca,'ylabel') % handle to the label object
+% p = get(yh,'position') % get the current position property
+% p(1) = p(1)-.5 ;        % double the distance,                     % negative values put the label below the axis
+% set(yh,'position',p)  
+
+end
