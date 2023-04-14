@@ -9,3 +9,15 @@ This code can be used to re-generate the Fiber Photometry Data for Figures 2-4. 
 1. Download data using DANDI
 2. Run Figure scripts. Select the destination directory of the DANDI download when prompted. 
 
+The scripts will output panels as they were generated for the figures.  The data is organized into a T struct for each genetype cohort and behavioral protocol type, with row entries representing individual behavioral sessions.  
+The fields are as follows: 
+
+ntrials: number of trials in the behavioral session
+
+outcome: trial outcome where 1=correct; 2-incorrect; 3=omission; 4=premature
+
+ITI: intertrial interval
+
+CueDur: cue light duration
+
+rewardDur: code associated with the reward trial type.  Only relevant for RewLight sessions (Figure 3).  0 = Light + No reward; 1 = Light + reward; 2 = No Light + No Reward 
