@@ -5,8 +5,9 @@
 
 
 %% Load Data set of LHb Targeted Tac1 FP mice
-cd '~/Dropbox/MHb Figure Drafts/Data/'
-load([pwd '/datafiles/FP/WithheldRewards/Int-LHb27.mat'])
+%Select Data directory
+dataDir = uigetdir();
+cd '~/Git/HbRewardCellTypes/'
 
 %Get Plot Params
 cohorts = {'Int-LHb2'};
@@ -27,7 +28,7 @@ ymin = -1;
 ymax = 5;
 
 %Load cohort data
-load([pwd '/datafiles/FP/WithheldRewards/' cohorts{1} protocol '.mat'],'T')
+load([dataDir '/FP/WithheldRewards/Int-LHb27.mat'])
 D = convertoldMPCstruct(T);
 mArray = unique({D.subject});
 
@@ -96,9 +97,3 @@ ax.LineWidth = 3;
 title('Tac1-LHb');
 xlabel(['Time from ' syncname{j} ' (s)'])
 ylabel(dataUnits)
-
-%Save out figure as svg for manuscript
-if save_figure == 1
-    plot2svg([pwd '/Figure 3/panels/' cohorts{1} '/' cohorts{1} protocol syncname{j} '.svg'],h);                            
-end  
-

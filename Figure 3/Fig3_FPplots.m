@@ -10,8 +10,9 @@
 %data to .csv file for statistical analysis.  
 
 
-
-cd '~/Dropbox/MHb Figure Drafts/Data/'
+%Select Data directory
+dataDir = uigetdir();
+cd '~/Git/HbRewardCellTypes/'
 
 %Get Plot Params
 dataLabels = {'Correct','Incorrect','Omitted','Premature'};
@@ -47,7 +48,7 @@ for c=1:numel(cohorts)
     end
     
     %Load cohort data
-    load([pwd '/datafiles/FP/WithheldRewards/' cohorts{c} protocol '.mat'],'T')
+    load([dataDir '/FP/WithheldRewards/' cohorts{c} protocol '.mat'],'T')
     D = convertoldMPCstruct(T,10);
     mArray = unique({D.subject});
     
@@ -119,10 +120,6 @@ for c=1:numel(cohorts)
         xlabel(['Time from ' syncname{j} ' (s)'])
         ylabel(dataUnits)
 
-        %Save out figure as svg for manuscript
-        if save_figure == 1
-            %plot2svg([pwd '/Figure 3/panels/' cohorts{c} '/' cohorts{c} protocol syncname{j} '.svg'],h);                            
-        end  
     end
 end
 
@@ -154,10 +151,7 @@ for c=1:numel(cohorts)
     box off
     ylabel('Z Score')
     title([cohortLabels{c} ' - Reward']);
-    
-    %Save out figure
-    %saveas(gcf, [pwd '/Figure 3/panels/' cohorts{c} '/' cohorts{c} '_RewLight_stats.pdf']);    
-    
+        
     %Export Stats for Prism
     eventLabels = {'Start','Cue', 'Poke', 'Reward'};
     nData = numel(fpstats{c,j,1}{1});
@@ -166,7 +160,6 @@ for c=1:numel(cohorts)
         statExport(i,:,1) = fpstats{c,j,i}{1};
         statExport(i,:,2) = fpstats{c,j,i}{2};
     end
-    %csvwrite([pwd '/Figure 3/stats/' cohorts{c} '_' eventLabels{i} '_RewLight_FPstats.csv'],statExport);
     
     %For TH, also look at Approach
     if c==1
@@ -184,10 +177,7 @@ for c=1:numel(cohorts)
         box off
         ylabel('Z Score') 
         title([cohortLabels{c} ' Approach']);
-
-        %saveas(gcf, [pwd '/Figure 3/panels/' cohorts{c} '/' cohorts{c} '_RewLightApproach_stats.pdf']);   
-    end
-    
+    end    
 end
 
 

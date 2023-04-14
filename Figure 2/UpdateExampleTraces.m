@@ -3,9 +3,8 @@
 %grab_session_example script that makes a heatplot of all cued trials,
 %sorted by trial number.  
 
-cd '~/Dropbox/MHb Figure Drafts/Data/'
-
-close all
+%Select the 'datafiles' directory 
+dataDir = uigetdir();
 
 %% Figure 2
 grab_session_example('Th','m407','6',1);

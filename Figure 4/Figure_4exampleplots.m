@@ -11,8 +11,12 @@ n=1;
 protocol = '6'; 
 dataUnits = 'Zscore';
 
-cd '~/Dropbox/MHb Figure Drafts/Data/'
-load([pwd '/datafiles/FP/StandardTask/' cohort protocol '.mat'],'T')
+
+%Select Data directory
+dataDir = uigetdir();
+cd '~/Git/HbRewardCellTypes/'
+
+load([dataDir '/FP/StandardTask/' cohort protocol '.mat'],'T')
 %%
 %Get correct Trials
 mice = {T.subject};
@@ -69,11 +73,6 @@ xlabel('Time from reward (s)')
 ylabel('Trial Number')
 uniformFigureProps()
 
-%save our plot
-saveas(gcf, [pwd '/Figure 4/panels/' cohort '_exampleAccumulationPlot.pdf']) 
-
-
-
 %% Grab example first and last 5 trials
 
 h = figure('PaperUnits', 'centimeters', 'Units', 'centimeters','Position',[0 0 4.4 2.8],'PaperSize',[4 3])
@@ -114,6 +113,3 @@ plot([size(I,2)-2*sr, size(I,2)],[-1 -1],'k', 'LineWidth',2)
 plot([size(I,2), size(I,2)],[-1 1],'k', 'LineWidth',2)
 text(size(I,2)-sr,-2,'2 s','FontSize',5)
 text(size(I,2)+0.5*sr,0,'2','FontSize',5)
-
-%save our plot
-saveas(gcf, [pwd '/Figure 4/panels/' cohort '_exampleFirstLast.pdf']) 

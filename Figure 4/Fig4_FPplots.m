@@ -14,7 +14,10 @@
 %% Make FP Plots aligned to Syncs -  Left Panels F,G,H
 
 
-cd '~/Dropbox/MHb Figure Drafts/Data/'
+%Select Data directory
+dataDir = uigetdir();
+cd '~/Git/HbRewardCellTypes/'
+
 %Get Plot Params
 cohorts = {'Th','Tac','chat','calb','LHbCombo'};
 outcomes = [1 2 3 4];
@@ -39,7 +42,7 @@ for c=1:numel(cohorts)
     end
     
     %Load cohort data
-    load([pwd '/datafiles/FP/StandardTask/' cohorts{c} protocol '.mat'],'T')
+    load([dataDir '/FP/StandardTask/' cohorts{c} protocol '.mat'],'T')
     mArray = unique({T.subject});
     
     %% Analyze Data
@@ -89,12 +92,10 @@ for c=1:numel(cohorts)
     imagesc(cohortMean);
     xline(2*sr,':w','LineWidth',.5)
 
-    
     %Set colormap
     colormap inferno
     cb = colorbar; set(cb,'position',[.92 .65 .03 .25]); set(cb,'YTick',[-1 3])
     caxis([-1 3])
-
 
     %Set Axes
     xticks(0:2*sr:sr*(xlim2-xlim1))
@@ -103,18 +104,16 @@ for c=1:numel(cohorts)
     xlabel('Time from reward (s)')
     ylabel('n^{th} Correct Trial')
     
-    t = text(170,38,'Z Score','FontSize',7)
+    t = text(170,38,'Z Score','FontSize',7);
     set(t,'Rotation',90)
     caxis([-1 3])
 
     %Add metadata to figure for paper legends
-         text( 160,-1, ['n = ' num2str(numel(unique({T.subject}))) ' mice'],'FontSize',4,'Color',[1 1 1 ]);
-         text( 160,-2, ['n = ' num2str(sum(cell2mat({T.ntrials}))) ' trials'],'FontSize',4,'Color',[1 1 1 ]);
-         text( 160,-3, ['From ' num2str(min(nSessions))...
-             ' to ' num2str(max(nSessions)) ' sessions'],'FontSize',4,'Color',[1 1 1]);   
-    %Save out plot
+     text( 160,-1, ['n = ' num2str(numel(unique({T.subject}))) ' mice'],'FontSize',4,'Color',[1 1 1 ]);
+     text( 160,-2, ['n = ' num2str(sum(cell2mat({T.ntrials}))) ' trials'],'FontSize',4,'Color',[1 1 1 ]);
+     text( 160,-3, ['From ' num2str(min(nSessions))...
+         ' to ' num2str(max(nSessions)) ' sessions'],'FontSize',4,'Color',[1 1 1]);   
     uniformFigureProps();
-    saveas(gcf, [pwd '/Figure 4/panels/' cohorts{c} '_nthCorrect_heatmap.pdf']) 
 
     %% Make a bar figure
     
@@ -122,7 +121,7 @@ for c=1:numel(cohorts)
     cohortMean = nanmean(m_barplotdata(1:nRewards,:),2);
     cohortStd = nanstd(m_barplotdata(1:nRewards,:),[],2);
     
-    h = figure('PaperUnits', 'centimeters', 'Units', 'centimeters','Position',[0 0 3.2 2.8],'PaperSize',[6 6])
+    h = figure('PaperUnits', 'centimeters', 'Units', 'centimeters','Position',[0 0 3.2 2.8],'PaperSize',[6 6]);
     colors = rewLightColors(1)
     hold on
     b=bar(cohortMean,'FaceColor',colors(2,:));
@@ -152,8 +151,5 @@ for c=1:numel(cohorts)
     xlabel('n^{th} Correct Trial')
     xticks(0:20:40)
     uniformFigureProps() 
-
-    %Save out plot
-    saveas(gcf, [pwd '/Figure 4/panels/' cohorts{c} '_nthCorrect_barplot.pdf']) 
 
 end

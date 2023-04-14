@@ -19,7 +19,12 @@
 %is a significant effect for each cohort for the two reward metrics. 
 
 %% Make FP Plots aligned to Syncs -  Left Panels F,G,H
-cd '~/Dropbox/MHb Figure Drafts/Data/'
+
+%Select Data directory
+dataDir = uigetdir();
+cd '~/Git/HbRewardCellTypes/'
+
+
 %Get Plot Params
 dataLabels = {'Correct','Incorrect','Omitted','Premature'};
 cohorts = {'Th','Tac','chat','calb','LHbCombo'};
@@ -31,14 +36,15 @@ time_Win = 7;
 sr=1017/50;
 t = linspace(-time_Win,time_Win, (2*sr*time_Win));   
 colors = mhbColors(2);
-save_figure = 1;
 protocol = '6'; %Stage 6 after training
 DataOutputFolder = 'FP_3CSRTT';
 dataUnits = 'Zscore';
 fpstats=cell(numel(cohorts),numel(syncname),2);
+
+%Loop through each cohort
 for c=1:numel(cohorts)
     %Load cohort data
-    load([pwd '/datafiles/FP/StandardTask/' cohorts{c} protocol '.mat'],'T')
+    load([dataDir '/FP/StandardTask/' cohorts{c} protocol '.mat'],'T')
     D=T;
     mArray = unique({D.subject});
     
@@ -140,11 +146,6 @@ for c=1:numel(cohorts)
             xlabel(['Time from ' syncname{j} ' (s)'])
             ylabel(dataUnits)
         end
-        %Save out figure as svg for manuscript
-            if save_figure == 1
-                %plot2svg([pwd '/Figure 2/panels/' cohorts{c} '/' cohorts{c} protocol syncname{j} '.svg'],h);                            
-
-            end  
     end
 end
 
@@ -204,17 +205,10 @@ for c=1:numel(cohorts)
 
         %Add significance symbols
         if p<=0.05 
-            [a b] = max(y);
+            [a, b] = max(y);
             text(1.5,a + err(b) +.1,['* p=' num2str(round(p,3))],'FontSize',10)
-        end    
-
-        %Save out figure
-        if save_figure == 1
-            %saveas(gcf, [pwd '/Figure 2/panels/' cohorts{c} '/' cohorts{c} protocol syncname{j} '_stats.pdf']);                            
-        end  
-        
-    end
-        
+        end            
+    end      
 end
 
 
@@ -226,9 +220,9 @@ end
 %Set up figs
 nCohorts = numel(cohorts);
 cohortLabels = {'TH','Tac1','ChAT','Calb1','LHb'};
-pos1 = ones(10,1)*[1:1:numel(cohorts)];
-colors = [mhbColors(1); [0 0 0]]
-colors(4,:) = [239 192 82]/255
+pos1 = ones(10,1)*1:1:numel(cohorts);
+colors = [mhbColors(1); [0 0 0]];
+colors(4,:) = [239 192 82]/255;
 plotLabel = {'Approach','Consume'};
 
 for datawindow = 2:3
@@ -245,7 +239,7 @@ for datawindow = 2:3
     %ylim([-2 2])
     xticklabels({})
     %Get Stats
-    tickpos = 1:1:numel(cohorts)
+    tickpos = 1:1:numel(cohorts);
     for i=1:numel(cohorts)
     [~,p(i)] =ttest(dF(:,i));
     end
@@ -263,13 +257,9 @@ for datawindow = 2:3
         else; ptest = ' ';
         end
         %Add text to plot
-        t = text(tickpos(i),1.5,ptest,'FontSize',20);
         t = text(tickpos(i),1.7,num2str(round(FDR(i),4)),'FontSize',6);
         set(t,'Rotation',90);
         q=q+1;
     end
-    
-    %Save out plot
-     %saveas(gcf, [pwd '/Figure 2/panels/' plotLabel{datawindow-1} '_Reward.pdf']) 
-     
+        
 end

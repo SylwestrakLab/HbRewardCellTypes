@@ -4,10 +4,12 @@
 %by trial number with t=0 as the onset of the cue. 
 
 
-function I = grab_session_example(cohort, subject, protocol, n)
+function I = grab_session_example(dataDir, cohort, subject, protocol, n)
 %Load Data Struct
-cd '~/Dropbox/MHb Figure Drafts/Data/'
-procdir = [pwd '/datafiles/FP/*/'];
+
+%Select Data directory
+
+procdir = [dataDir '/FP/*/'];
 path = [procdir  cohort protocol '.mat'];
 datafile = dir(path);
 load(fullfile(datafile.folder,datafile.name),'T', 'time_Win', 'sr','dataUnits')
@@ -96,6 +98,6 @@ t=text(175,75,'Z Score','FontSize',7)
 set(t,'Rotation',90)
 
 %Save Out
-saveas(h, [pwd '/Figure 2/panels/Example Sessions/' subject '_' fdate '_' '_cue+reward.pdf']) 
+%saveas(h, [dataDir '/Figure 2/panels/Example Sessions/' subject '_' fdate '_' '_cue+reward.pdf']) 
 
 end
