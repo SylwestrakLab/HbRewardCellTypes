@@ -6,3 +6,6 @@ Sylwestrak EL, Jo Y, Vesuna S, Wang X, Holcomb B, Tien RH, Kim DK, Fenno L, Rama
 
 This code can be used to re-generate the Fiber Photometry Data for Figures 2-4.  Code related to each of the figures is in the associated folder and a set of functions required across scripts is locted in the utils folder.
 
+1. Download data using DANDI
+2. Run Figure scripts. Select the destination directory of the DANDI download when prompted. 
+
