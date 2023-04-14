@@ -16,7 +16,9 @@
 
 %Select Data directory
 dataDir = uigetdir();
-cd '~/Git/HbRewardCellTypes/'
+
+%Add the Repo to your path
+addpath(genpath('~/Git/HbRewardCellTypes/'))
 
 %Get Plot Params
 cohorts = {'Th','Tac','chat','calb','LHbCombo'};

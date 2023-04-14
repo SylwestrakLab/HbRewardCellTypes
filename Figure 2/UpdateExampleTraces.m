@@ -3,8 +3,11 @@
 %grab_session_example script that makes a heatplot of all cued trials,
 %sorted by trial number.  
 
-%Select the 'datafiles' directory 
+%Select Data directory
 dataDir = uigetdir();
+
+%Add the Repo to your path
+addpath(genpath('~/Git/HbRewardCellTypes/'))
 
 %% Figure 2
 grab_session_example('Th','m407','6',1);

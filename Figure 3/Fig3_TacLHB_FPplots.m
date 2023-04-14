@@ -7,7 +7,9 @@
 %% Load Data set of LHb Targeted Tac1 FP mice
 %Select Data directory
 dataDir = uigetdir();
-cd '~/Git/HbRewardCellTypes/'
+
+%Add the Repo to your path
+addpath(genpath('~/Git/HbRewardCellTypes/'))
 
 %Get Plot Params
 cohorts = {'Int-LHb2'};

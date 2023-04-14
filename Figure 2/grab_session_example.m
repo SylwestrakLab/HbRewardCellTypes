@@ -10,6 +10,7 @@ function I = grab_session_example(dataDir, cohort, subject, protocol, n)
 %Select Data directory
 
 procdir = [dataDir '/FP/*/'];
+
 path = [procdir  cohort protocol '.mat'];
 datafile = dir(path);
 load(fullfile(datafile.folder,datafile.name),'T', 'time_Win', 'sr','dataUnits')
@@ -94,10 +95,7 @@ else
 end
 
 %Label Colorbar
-t=text(175,75,'Z Score','FontSize',7)
+t=text(175,75,'Z Score','FontSize',7);
 set(t,'Rotation',90)
-
-%Save Out
-%saveas(h, [dataDir '/Figure 2/panels/Example Sessions/' subject '_' fdate '_' '_cue+reward.pdf']) 
 
 end

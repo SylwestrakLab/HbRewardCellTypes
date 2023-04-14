@@ -14,7 +14,9 @@ dataUnits = 'Zscore';
 
 %Select Data directory
 dataDir = uigetdir();
-cd '~/Git/HbRewardCellTypes/'
+
+%Add the Repo to your path
+addpath(genpath('~/Git/HbRewardCellTypes/'))
 
 load([dataDir '/FP/StandardTask/' cohort protocol '.mat'],'T')
 %%
