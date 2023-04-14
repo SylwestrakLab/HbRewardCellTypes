@@ -6,9 +6,13 @@ Sylwestrak EL, Jo Y, Vesuna S, Wang X, Holcomb B, Tien RH, Kim DK, Fenno L, Rama
 
 This code can be used to re-generate the Fiber Photometry Data for Figures 2-4.  Code related to each of the figures is in the associated folder and a set of functions required across scripts is locted in the utils folder.
 
+# Getting Started
+
 1. Download data using DANDI
 2. Run Figure scripts. Select the destination directory of the DANDI download when prompted. 
 
+
+# Description of data
 The scripts will output panels as they were generated for the figures.  The data is organized into a T struct for each genetype cohort and behavioral protocol type, with row entries representing individual behavioral sessions.  
 The fields are as follows: 
 
@@ -42,5 +46,11 @@ trialNum = vector of trial numbers
 
 rewardProb = session reward probability
 
-d = d
+d = output from Synapse fiber photometry software
+
+# Behavioral syncs
+
+The remaining fields are associated with behavioral syncs.  Those with 'df' are the dF/F values Those without 'df' are z scored values.  Each matrix row is a trial, 7 seconds before and after the behavioral sync.
+
+
 
