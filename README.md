@@ -20,4 +20,27 @@ ITI: intertrial interval
 
 CueDur: cue light duration
 
-rewardDur: code associated with the reward trial type.  Only relevant for RewLight sessions (Figure 3).  0 = Light + No reward; 1 = Light + reward; 2 = No Light + No Reward 
+rewardDur: code associated with the reward trial type.  Only relevant for RewLight sessions (Figure 3).  0 = Light + No reward; 1 = Light + reward; 2 = No Light + No Reward ; 3 = No Light + Reward
+
+subject = animal id
+
+rewLat = time from nosepoke to reward port entry
+
+respLat = time from cue onset to nosepoke
+
+header = session info
+
+filterHz = filtering info
+
+baselineF = average voltage after demodulation across the session
+
+bls = regression parameters
+
+stage = id for session type across training and testing
+
+trialNum = vector of trial numbers
+
+rewardProb = session reward probability
+
+d = d
+
