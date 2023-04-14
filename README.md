@@ -9,7 +9,7 @@ This code can be used to re-generate the Fiber Photometry Data for Figures 2-4. 
 # Getting Started
 
 1. Download data using GitHub
-2. Run Figure scripts. Select the destination directory of the DANDI download when prompted. 
+2. Run Figure scripts. Select the destination directory of the datafiles download when prompted. 
 
 
 # Description of data
