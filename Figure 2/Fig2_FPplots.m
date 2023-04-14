@@ -23,8 +23,10 @@ cd '~/Dropbox/MHb Figure Drafts/Data/'
 %Get Plot Params
 dataLabels = {'Correct','Incorrect','Omitted','Premature'};
 cohorts = {'Th','Tac','chat','calb','LHbCombo'};
+cohortLabels = {'Th','Tac1','ChAT','Calb1','Nonspecific LHb'};
 outcomes = [1 2 3 4];
 syncname = {'Start'; 'Cue'; 'Poke'; 'Reward';'HeadIn'};
+
 time_Win = 7;
 sr=1017/50;
 t = linspace(-time_Win,time_Win, (2*sr*time_Win));   
@@ -33,7 +35,7 @@ save_figure = 1;
 protocol = '6'; %Stage 6 after training
 DataOutputFolder = 'FP_3CSRTT';
 dataUnits = 'Zscore';
-fpstats={};
+fpstats=cell(numel(cohorts),numel(syncname),2);
 for c=1:numel(cohorts)
     %Load cohort data
     load([pwd '/datafiles/FP/StandardTask/' cohorts{c} protocol '.mat'],'T')
@@ -74,15 +76,19 @@ for c=1:numel(cohorts)
             
             %Plot Data
             if ~isempty(M)
-                 %limit to smaller xwin
+                %limit to smaller xwin for compact figures
                 xstart = round((time_Win-1)*sr);
                 xend = round((time_Win+4)*sr);
                 x = t(xstart:xend);
                 y = zM(xstart:xend,:);
                 hold on;
+
+                %Make a shaded error bar
                 h = shadedErrorBar(x,nanmean(y,2),nanstd(y,0,2)./sqrt(size(y,2)),{'Color',colors(o,:)},.8,2);
                 set(get(get( h(1).patch,'Annotation'),'LegendInformation'),'IconDisplayStyle','off');
-                %%Stash means for dF/F for stats below
+                
+                %%Stash means for dF/F for stats below. Accomodate
+                %%different analysis windows for some syncs.
                 if j<4
                     fpstats{c,j,o}{1,1} = nanmean(M(round((time_Win-1)*sr):round(time_Win*sr),:),1);
                     fpstats{c,j,o}{1,2} = nanmean(M(round((time_Win)*sr):round((time_Win+1)*sr),:),1);
@@ -94,7 +100,6 @@ for c=1:numel(cohorts)
                     fpstats{c,j,o}{3,1} = (nanmean(M(round((time_Win-1)*sr):round((time_Win-0)*sr),:),1));
                     fpstats{c,j,o}{3,2} = (nanmean(M(round((time_Win)*sr):round((time_Win+2)*sr),:),1));
                 end
-                            
             end
 
             %Add rectangle for cue light
@@ -112,9 +117,9 @@ for c=1:numel(cohorts)
             end  
             
             %Add metadata to figure for paper legends
-             text( 1,2, ['n = ' num2str(numel(unique(mArray))) ' mice'],'FontSize',6,'Color',[.9 .9 .9 ]);
-             text( 1,1.8, ['n = ' num2str(sum(cell2mat({T.ntrials}))) ' trials'],'FontSize',6,'Color',[.9 .9 .9 ]);
-             text( 1,1.6, ['Across ' num2str(sum(nSessions)) ' sessions'],'FontSize',6,'Color',[.9 .9 .9 ]);    
+             text( 1,1.8 , ['n = ' num2str(numel(unique(mArray))) ' mice'],'FontSize',6,'Color','w');
+             text( 1,1.6, ['n = ' num2str(sum(cell2mat({T.ntrials}))) ' trials'],'FontSize',6,'Color','w');
+             text( 1,1.4, ['Across ' num2str(sum(nSessions)) ' sessions'],'FontSize',6,'Color','w');    
 
             %Set Axes Lims
             h=gcf; 
@@ -126,13 +131,18 @@ for c=1:numel(cohorts)
                  xticks([-1 0 1 2])
             end
             ylim([-1 2])
+
+            %%Make uniform figure properties
             prettyAxis()
             ax = gca;
             ax.LineWidth = 3;
+            title(cohortLabels{c});
+            xlabel(['Time from ' syncname{j} ' (s)'])
+            ylabel(dataUnits)
         end
         %Save out figure as svg for manuscript
             if save_figure == 1
-                plot2svg([pwd '/Figure 2/panels/' cohorts{c} '/' cohorts{c} protocol syncname{j} '.svg'],h);                            
+                %plot2svg([pwd '/Figure 2/panels/' cohorts{c} '/' cohorts{c} protocol syncname{j} '.svg'],h);                            
 
             end  
     end
@@ -157,7 +167,6 @@ for c=1:numel(cohorts)
                     eb = errorbar(x(i),y(i), err(i), 'vertical', 'LineStyle', 'none');
                     set(eb, 'color', color(o,:), 'LineWidth',1)
                 end
-             
             end  
         else
             meanFP = [fpstats{c,j,1}{1,1}; fpstats{c,j,1}{1,2}]';
@@ -175,31 +184,36 @@ for c=1:numel(cohorts)
         box off
         prettyAxis()
         ylabel('%\DeltaF/F')
-        set(gca, 'FontSize',16) 
+        set(gca, 'FontSize',16)
+        title([cohortLabels{c} ' - ' syncname{j}] )
 
         %Add stats
         if j<4
-            %Export Stats for Prism
-            eventLabels = {'Start','Cue', 'Poke', 'Reward'};
+            %Export Stats 
             nData = numel(fpstats{c,j,i}{1});
             statExport = nan(4,nData,2);
             for i=1:4
                 statExport(i,:,1) = fpstats{c,j,i}{1};
                 statExport(i,:,2) = fpstats{c,j,i}{2};
-                csvwrite([pwd '/Figure 2/stats/' cohorts{c} '_' eventLabels{i} '_6_FPstats.csv'],statExport);
+                %csvwrite([pwd '/Figure 2/stats/' cohorts{c} '_' syncname{i} '_6_FPstats.csv'],statExport);
             end
             p=1;
         else
             [h,p] = ttest(meanFP(:,1),meanFP(:,2));
         end
-            if p<=0.05 
-                [a b] = max(y);
-                text(1.5,a + err(b) +.1,['* p=' num2str(round(p,3))],'FontSize',10)
-            end    
-            if save_figure == 1
-                saveas(gcf, [pwd '/Figure 2/panels/' cohorts{c} '/' cohorts{c} protocol syncname{j} '_stats.pdf']);                            
-            end  
-        end
+
+        %Add significance symbols
+        if p<=0.05 
+            [a b] = max(y);
+            text(1.5,a + err(b) +.1,['* p=' num2str(round(p,3))],'FontSize',10)
+        end    
+
+        %Save out figure
+        if save_figure == 1
+            %saveas(gcf, [pwd '/Figure 2/panels/' cohorts{c} '/' cohorts{c} protocol syncname{j} '_stats.pdf']);                            
+        end  
+        
+    end
         
 end
 
@@ -238,24 +252,24 @@ for datawindow = 2:3
 
     %Correct for False Discovery Rate
     q=0;
-    FDR = mafdr(p,'BHFDR','true')
+    FDR = mafdr(p,'BHFDR','true');
     for i=1:numel(cohorts)
         if FDR(i)<0.001
             ptest = '***';
         elseif FDR(i)<0.01
                 ptest = '**';
         elseif FDR(i)<0.05
-                ptest = ['*'];
-        else; ptest = ' '
+                ptest = '*';
+        else; ptest = ' ';
         end
         %Add text to plot
-        t = text(tickpos(i),1.5,ptest,'FontSize',20)
-        t = text(tickpos(i),1.7,num2str(round(FDR(i),4)),'FontSize',6)
+        t = text(tickpos(i),1.5,ptest,'FontSize',20);
+        t = text(tickpos(i),1.7,num2str(round(FDR(i),4)),'FontSize',6);
         set(t,'Rotation',90);
         q=q+1;
     end
     
     %Save out plot
-     saveas(gcf, [pwd '/Figure 2/panels/' plotLabel{datawindow-1} '_Reward.pdf']) 
+     %saveas(gcf, [pwd '/Figure 2/panels/' plotLabel{datawindow-1} '_Reward.pdf']) 
      
 end

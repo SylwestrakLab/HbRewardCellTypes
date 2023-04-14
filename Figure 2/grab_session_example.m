@@ -7,9 +7,9 @@
 function I = grab_session_example(cohort, subject, protocol, n)
 %Load Data Struct
 cd '~/Dropbox/MHb Figure Drafts/Data/'
-procdir = [pwd '/datafiles/FP/*/']
+procdir = [pwd '/datafiles/FP/*/'];
 path = [procdir  cohort protocol '.mat'];
-datafile = dir(path)
+datafile = dir(path);
 load(fullfile(datafile.folder,datafile.name),'T', 'time_Win', 'sr','dataUnits')
 
 
@@ -43,7 +43,7 @@ end
 
 %Setup Figure
 %h=figure('DefaultAxesFontSize',36,'Position', [-1303 374 314 258]);
-h = figure('PaperUnits', 'centimeters', 'Units', 'centimeters','Position',[0 0 1 1.7],'PaperSize',[4 3])
+h = figure('PaperUnits', 'centimeters', 'Units', 'centimeters','Position',[0 0 1 1.7],'PaperSize',[4 3]);
 
 imagesc(I);
 

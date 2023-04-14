@@ -108,7 +108,7 @@ for c=1:numel(cohorts)
     caxis([-1 3])
 
     %Add metadata to figure for paper legends
-         text( 160,-1, ['n = ' num2str(numel(unique(mice))) ' mice'],'FontSize',4,'Color',[1 1 1 ]);
+         text( 160,-1, ['n = ' num2str(numel(unique({T.subject}))) ' mice'],'FontSize',4,'Color',[1 1 1 ]);
          text( 160,-2, ['n = ' num2str(sum(cell2mat({T.ntrials}))) ' trials'],'FontSize',4,'Color',[1 1 1 ]);
          text( 160,-3, ['From ' num2str(min(nSessions))...
              ' to ' num2str(max(nSessions)) ' sessions'],'FontSize',4,'Color',[1 1 1]);   
@@ -126,7 +126,7 @@ for c=1:numel(cohorts)
     colors = rewLightColors(1)
     hold on
     b=bar(cohortMean,'FaceColor',colors(2,:));
-    e=errorbar(cohortMean,cohortStd./sqrt(size(m_mousedata,2)),'.k');
+    e=errorbar(cohortMean,cohortStd./sqrt(size(m_barplotdata,2)),'.k');
     
     %Conform to reward contingency color scheme
     e.LineStyle = 'none';

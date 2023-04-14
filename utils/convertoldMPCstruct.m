@@ -72,10 +72,10 @@ for f=1:size(T,2)
             end
     end
     try
-    filedate = datestr(datenum(T(f).header.Start_Date,'mm/dd/yy'),'dd-mmm-yyyy')
-    mouse = T(f).subject;
-    load(['~/Dropbox/MPC/Processed/' mouse '_' filedate '.mat'])
-    D(f).d = d;
+        filedate = datestr(datenum(T(f).header.Start_Date,'mm/dd/yy'),'dd-mmm-yyyy');
+        mouse = T(f).subject;
+        load(['~/Dropbox/MPC/Processed/' mouse '_' filedate '.mat']);
+        D(f).d = d;
     end
 
 end
