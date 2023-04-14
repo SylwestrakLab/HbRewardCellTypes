@@ -10,8 +10,8 @@ dataDir = uigetdir();
 addpath(genpath('~/Git/HbRewardCellTypes/'))
 
 %% Figure 2
-grab_session_example('Th','m407','6',1);
-grab_session_example('Tac','m219','6',1);
-grab_session_example('chat','m385','6',2);
-grab_session_example('calb','m726','6',1);
-grab_session_example('LHbCombo','m417','6',1);
+grab_session_example(dataDir,'Th','m407','6',1);
+grab_session_example(dataDir,'Tac','m219','6',1);
+grab_session_example(dataDir,'chat','m385','6',2);
+grab_session_example(dataDir,'calb','m726','6',1);
+grab_session_example(dataDir,'LHbCombo','m417','6',1);

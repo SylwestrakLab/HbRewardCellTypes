@@ -8,7 +8,6 @@ function I = grab_session_example(dataDir, cohort, subject, protocol, n)
 %Load Data Struct
 
 %Select Data directory
-
 procdir = [dataDir '/FP/*/'];
 
 path = [procdir  cohort protocol '.mat'];
@@ -35,7 +34,7 @@ catch
 end
 
 %Plot from t-1 to end of time window
-sr = T2.d.samplerate/T2.filterHz;
+sr = T2.sr;
 I=data(:,round((time_Win-1)*sr):end);
 
 %Make plots of equivalent length, since the number of cued trials varies

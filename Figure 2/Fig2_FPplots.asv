@@ -33,6 +33,7 @@ cohortLabels = {'Th','Tac1','ChAT','Calb1','Nonspecific LHb'};
 outcomes = [1 2 3 4];
 syncname = {'Start'; 'Cue'; 'Poke'; 'Reward';'HeadIn'};
 
+T = computeZscore(T);
 
 time_Win = 7;
 sr=1017/50;
@@ -49,6 +50,7 @@ for c=1:numel(cohorts)
     load([dataDir '/FP/StandardTask/' cohorts{c} protocol '.mat'],'T')
     D=T;
     mArray = unique({D.subject});
+    
     %Loop through behavioral syncs
     for j=2:4
         figure('DefaultAxesFontSize',24,'Position',[1 393 284 239])
@@ -125,7 +127,7 @@ for c=1:numel(cohorts)
             
             %Add metadata to figure for paper legends
              text( 1,1.8 , ['n = ' num2str(numel(unique(mArray))) ' mice'],'FontSize',6,'Color','w');
-             text( 1,1.6, ['n = ' num2str(sum(cell2mat({D.ntrials}))) ' trials'],'FontSize',6,'Color','w');
+             text( 1,1.6, ['n = ' num2str(sum(cell2mat({T.ntrials}))) ' trials'],'FontSize',6,'Color','w');
              text( 1,1.4, ['Across ' num2str(sum(nSessions)) ' sessions'],'FontSize',6,'Color','w');    
 
             %Set Axes Lims
@@ -221,7 +223,7 @@ end
 %Set up figs
 nCohorts = numel(cohorts);
 cohortLabels = {'TH','Tac1','ChAT','Calb1','LHb'};
-pos1 = ones(10,1)*(1:1:numel(cohorts));
+pos1 = ones(10,1)*1:1:numel(cohorts);
 colors = [mhbColors(1); [0 0 0]];
 colors(4,:) = [239 192 82]/255;
 plotLabel = {'Approach','Consume'};
