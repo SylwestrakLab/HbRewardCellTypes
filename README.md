@@ -8,7 +8,7 @@ This code can be used to re-generate the Fiber Photometry Data for Figures 2-4. 
 
 # Getting Started
 
-1. Download data using DANDI
+1. Download data using GitHub
 2. Run Figure scripts. Select the destination directory of the DANDI download when prompted. 
 
 
@@ -28,11 +28,13 @@ rewardDur: code associated with the reward trial type.  Only relevant for RewLig
 
 subject = animal id
 
+data = copy of depricated file structure to make compatible with MPC generated data from the beginning of the project.
+
 rewLat = time from nosepoke to reward port entry
 
 respLat = time from cue onset to nosepoke
 
-header = session info
+header = session info from old MPC files
 
 filterHz = filtering info
 
@@ -45,8 +47,6 @@ stage = id for session type across training and testing
 trialNum = vector of trial numbers
 
 rewardProb = session reward probability
-
-d = output from Synapse fiber photometry software
 
 # Behavioral syncs
 
